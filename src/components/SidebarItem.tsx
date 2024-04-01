@@ -1,20 +1,28 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-import { CiBookmarkCheck } from 'react-icons/ci';
+interface Props {
+  icon: React.ReactNode;
+  path: string;
+  title: string;
+}
 
-export const SidebarItem = () => {
-  {
-    /* Active className: text-white bg-gradient-to-r from-sky-600 to-cyan-400 */
-  }
+export const SidebarItem = ({ icon, path, title }: Props) => {
+  const pathName = usePathname();
 
   return (
     <li>
       <Link
-        href='/dashboard/rest-todos'
-        className='px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group'
+        href={path}
+        className={`px-4 py-3 flex items-center space-x-4 rounded-md group hover:bg-gradient-to-r hover:bg-sky-600 hover:text-white ${
+          path === pathName &&
+          'text-white bg-gradient-to-r from-sky-600 to-cyan-400'
+        }`}
       >
-        <CiBookmarkCheck size={30} />
-        <span className='group-hover:text-gray-700'>Categories</span>
+        {icon}
+        <span className='group-hover:text-white-700'>{title}</span>
       </Link>
     </li>
   );
