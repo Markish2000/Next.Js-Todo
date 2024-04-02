@@ -14,7 +14,7 @@ docker compose up -d
 5. Ejecutar el comadno `npm run dev`
 6. Ejecutar el SEED para [crear la base de datos local](localhost:3000/api/seed)
 
-# Prims commands
+# Prisma commands
 
 ```
 npx prisma init
