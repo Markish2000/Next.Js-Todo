@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { Todo } from '@prisma/client';
 import * as yup from 'yup';
 
+import { getUserSessionServer } from '@/auth/actions/auth-actions';
+
 import prisma from '@/lib/prisma';
 
 interface Segments {
@@ -12,7 +14,17 @@ interface Segments {
 }
 
 const getTodo = async (id: string): Promise<Todo | null> => {
-  return await prisma.todo.findFirst({ where: { id } });
+  const user = await getUserSessionServer();
+
+  if (user) {
+    const todo = await prisma.todo.findFirst({ where: { id } });
+
+    if (todo?.userId === user.id) return todo;
+
+    return null;
+  }
+
+  return null;
 };
 
 export async function GET(request: Request, { params }: Segments) {
